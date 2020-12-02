@@ -1,0 +1,7 @@
+*/autogen/*
+*~
+*.o
+*.log
+rtc.conf
+omninames*
+
