@@ -62,45 +62,47 @@ These are needed to read and write the Mongo DB for results upload.
   ***sudo make*** (Some files will be downloaded and stored at INSTALL_PREFIX,/usr/local.  We need sudo to access there.)  
   ***sudo make install***  
   
+## Preparing the running env  
+* Making directory for input and output  
+***sudo mkdir /DAQ***  
+***sudo mkdir /DAQ/Output***  
+***sudo chmod 777 /DAQ -R***  
+input and output are at the same place...  Stupid?  
 
-Edit config file
-/etc/ld.so.conf.d/daqmw.conf
-Adding following lines
-/usr/local/lib
-/somewhere/ROOT/lib
+* Edit system library path.  Usually, /usr/local/lib is not included in default.   
+**/etc/ld.so.conf.d/daqmw.conf**  
+Adding following lines  
+**/usr/local/lib**  
+**/opt/ROOT/lib**  
+And type ldconfig command.  
+***sudo ldconfig***  
 
-Edit /etc/services
-Adding following
-bootComps       50000/tcp                       # boot Comps
+* Adding network component controll  
+**/etc/services**  
+Adding following  
+**bootComps       50000/tcp                       # boot Comps**  
+Adding bootComps into the system  
+***sudo cp /usr/share/daqmw/etc/remote-boot/bootComps-xinetd.sample /etc/xinetd.d/bootComps***  
+In the bootComps file, CHange the user name.  Default is daq.  
+**/etc/xinetd.d/bootComps**  
+**daq -> hpge**  
 
-Adding bootComps
-sudo cp /usr/share/daqmw/etc/remote-boot/bootComps-xinetd.sample /etc/xinetd.d/bootComps
+* Set up Apache2 HTTP server  
+Enable headers and CORS. This is needed for remote monitoring and controll.  
+First, enable the header.  
+***sudo a2enmod headers***  
+Next, Editting the config file **etc/apache2/apache2.conf**.  Adding following line in the **<Directory /var/www/>** section.  
+**Header set Access-Control-Allow-Origin "*"**  
 
-In the bootComps file, CHange the user name.  Default is daq.
-daq -> hpge
-
-Usually, config file and output files are at /DAQ
-mkdir /DAQ
-chmod 777 /DAQ
-input and output are at the same place...  Stupid?
-
-Set up Apache2
-Enable headers and CORS
-sudo a2enmod headers
-Header set Access-Control-Allow-Origin "*"
-
-Edit and set up daqmw web pages
-In Ubuntu, the default setting of web pages are at
-/var/www/html
-not
-/var/www
-Place the scripts at the right place
-sudo cp -a /var/www/daqmw /var/www/html/
-Edit config files
-/etc/apache2/onf.d/daq.conf
-Change the location of files (www -> www/html)
-
-/etc/apache2/sites-available/000-default.conf
-/etc/apache2/sites-enabled/000-default.conf
-WSGIScriptAlias /daqmw/scripts "/var/www/html/daqmw/scripts"
-WSGIPythonPath  /var/www/html/daqmw/scripts
+* Edit and set up daqmw web script  
+In Ubuntu, the default setting of web pages are at **/var/www/html** not **/var/www**.  Place the scripts at the right place.  
+***sudo cp -a /var/www/daqmw /var/www/html/***  
+Edit config files of HTTP server  
+**/etc/apache2/onf.d/daq.conf**  
+Change the location of script files (www -> www/html) as same as folloing two lines.   
+**WSGIScriptAlias /daqmw/scripts "/var/www/html/daqmw/scripts"  
+WSGIPythonPath  /var/www/html/daqmw/scripts**  
+Also add above 2 lines into following config files.  
+**/etc/apache2/sites-available/000-default.conf  
+/etc/apache2/sites-enabled/000-default.conf**  
+Restart the HTTP server  
