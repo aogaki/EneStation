@@ -65,7 +65,8 @@
 	    <param pid="p0">0</param>
 	    <param pid="p1">0.00070625663</param>
 	    <param pid="UploadInterval">60</param>
-            <param pid="PeakThreshold">0.5</param>
+            <param pid="PeakThreshold">0.05</param>
+            <param pid="TargetEne">1.33</param>
           </params>
         </component>
         <component cid="Recorder0">

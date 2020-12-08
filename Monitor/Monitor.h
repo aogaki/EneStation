@@ -85,7 +85,7 @@ private:
    long fLastUpload;
    long fUploadInterval;
    double fPeakPosition;   // From TSpectrum
-   double fTargetPosition; // From parameter setter
+   double fTargetEne; // From parameter setter
   double fPeakThreshold;
   
   // For Flux.

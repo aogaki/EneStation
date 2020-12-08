@@ -104,7 +104,7 @@ Monitor::Monitor(RTC::Manager* manager)
   fLastUpload = time(nullptr);
 
   fPeakPosition = 0.;
-  fTargetPosition = 0.;
+  fTargetEne = 0.;
 
   fFitFnc.reset(new TF1("FitFnc", FitFnc, 0, 100, 7));
 
@@ -195,6 +195,7 @@ int Monitor::parse_params(::NVList* list)
     else if(sname == "p1") fP1 = std::stod(svalue);
     else if(sname == "UploadInterval") fUploadInterval = std::stoi(svalue);
     else if(sname == "PeakThreshold") fPeakThreshold = std::stod(svalue);
+    else if(sname == "TargetEne") fTargetEne = std::stod(svalue);
   }
    
   return 0;
@@ -363,7 +364,18 @@ void Monitor::FindPeaks()
   std::sort(peakPos, peakPos + fSpectrum->GetNPeaks(),
 	    [](const Double_t &left, const Double_t &right){return left > right;});
   fPeakPosition = peakPos[0];  // Most right peak
-   
+
+  auto lastDiff = 30.0; // We use only 0 to 30.  Max 30
+  if(fTargetEne != 0.0) {
+    for(auto i = 0; i < fSpectrum->GetNPeaks(); i++){
+      auto eneDiff = fabs(fTargetEne - peakPos[i]);
+      if(eneDiff < lastDiff) {
+	lastDiff = eneDiff;
+	fPeakPosition = peakPos[i];
+      }
+    }
+  }
+  
   //for (auto iPeak = 0; iPeak < knPeaks; iPeak++) {
   //std::cout << peakPos[iPeak] << std::endl;
   //}
@@ -392,8 +404,12 @@ void Monitor::FitHist()
     
   mean = gausFit->GetParameter(1);
   sigma = gausFit->GetParameter(2);
-  fFitFnc->SetRange(mean - kFitRange * sigma, mean + kFitRange * sigma);
-  fFitFnc->SetParameters(height, mean, sigma, 0, 0, 0, 0);
+  auto leftLimit =  mean - kFitRange * sigma;
+  auto leftOffset = fHist->GetBinContent(fHist->FindBin(leftLimit));
+  auto rightLimit =  mean + kFitRange * sigma;
+  auto rightOffset = fHist->GetBinContent(fHist->FindBin(rightLimit));
+  fFitFnc->SetRange(leftLimit, rightLimit);
+  fFitFnc->SetParameters(height, mean, sigma, leftOffset, 0, rightOffset, 0);
   fHist->Fit(fFitFnc.get(), "RQ");
    
   mean = fFitFnc->GetParameter(1);
