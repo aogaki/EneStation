@@ -7,7 +7,7 @@ At this moment, the system was tested on Ubuntu 18.04, Ubuntu 16.04, Ubuntu 20.0
 ### From package manager
 On the terminal, type following.  
 ***sudo apt install omniorb omniidl omniorb-nameserver libomniorb4-dev libxalan-c-dev libtool-bin uuid-dev autogen libboost-all-dev bc libxml2-utils libxml2-dev xinetd emacs git cmake-qt-gui doxygen automake swig dpkg-dev g++ gcc binutils libx11-dev libxpm-dev libxft-dev libxext-dev python libssl-dev apache2* libapache2-mod-wsgi***  
-These packages are listed by [Dependencies page of ROOT](https://root.cern/install/dependencies/) and [DAQ-Middleware intallation for Raspberry Pi](https://daqmw.kek.jp/raspberrypi/DAQ-MWonRasp4b-rep.txt).  The some lines of DAQ-Middleware page are written in Japanese.  
+These packages are listed by [Dependencies page of ROOT](https://root.cern/install/dependencies/) and [DAQ-Middleware intallation for Raspberry Pi](https://daqmw.kek.jp/raspberrypi/DAQ-MWonRasp4b-rep.txt).  Almost all of DAQ-Middleware page is written in Japanese, please try to use Chrome or some web browsers with translation.  
 
 ### From source, manual instalation
 Install following software
@@ -58,7 +58,7 @@ These are needed to read and write the Mongo DB for results upload.
   ***wget https://github.com/mongodb/mongo-cxx-driver/releases/download/r3.6.2/mongo-cxx-driver-r3.6.2.tar.gz***  
   ***tar zxvf mongo-cxx-driver-r3.6.2.tar.gz***  
   ***cd mongo-cxx-driver-r3.6.2***  
-  ***cmake . -DCMAKE_INSTALL_PREFIX=/usr/local -DBSONCXX_POLY_USE_MNMLSTC=1***
+  ***cmake . -DCMAKE_INSTALL_PREFIX=/usr/local -DBSONCXX_POLY_USE_MNMLSTC=1***  
   ***sudo make*** (Some files will be downloaded and stored at INSTALL_PREFIX,/usr/local.  We need sudo to access there.)  
   ***sudo make install***  
   
@@ -83,7 +83,7 @@ Adding following
 **bootComps       50000/tcp                       # boot Comps**  
 Adding bootComps into the system  
 ***sudo cp /usr/share/daqmw/etc/remote-boot/bootComps-xinetd.sample /etc/xinetd.d/bootComps***  
-In the bootComps file, CHange the user name.  Default is daq.  
+In the bootComps file, Change the user name.  Default is daq.  
 **/etc/xinetd.d/bootComps**  
 **daq -> hpge**  
 
