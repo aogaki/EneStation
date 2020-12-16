@@ -108,8 +108,11 @@ Monitor::Monitor(RTC::Manager* manager)
 
   fFitFnc.reset(new TF1("FitFnc", FitFnc, 0, 100, 7));
 
-  fSpectrum.reset(new TSpectrum(knPeaks * 2));
+  //fSpectrum.reset(new TSpectrum(knPeaks * 2));
+  fSpectrum.reset(new TSpectrum(fNPeaks * 2));
   fPeakThreshold = 0.2;
+
+  fEneThreshold = 10;
   
   fGausResult.reset(new TF1("GausResult", "gaus"));
   fGausResult->SetLineColor(kMagenta);
@@ -119,6 +122,8 @@ Monitor::Monitor(RTC::Manager* manager)
   fBGResult->SetLineColor(kGreen);
   fBGResult->SetLineWidth(4);
   fBGResult->SetFillStyle(0);
+
+  fNPeaks = 2;
 }
 
 Monitor::~Monitor()
@@ -162,7 +167,8 @@ int Monitor::daq_configure()
   auto xhigh = xlow + binW * nbinsx;
   fHist.reset(new TH1D("hist", "Energy distribution", nbinsx, xlow, xhigh));
   fHist->SetXTitle("[MeV]");
-
+  fEneThreshold = fHist->GetBinCenter(10); // To remove low energy events
+  
   fHistRaw.reset(new TH1D("raw", "Energy distribution (ADC)", 33000, 0.5, 33000.5));
    
   fServ->Register("/", fHist.get());
@@ -196,6 +202,7 @@ int Monitor::parse_params(::NVList* list)
     else if(sname == "UploadInterval") fUploadInterval = std::stoi(svalue);
     else if(sname == "PeakThreshold") fPeakThreshold = std::stod(svalue);
     else if(sname == "TargetEne") fTargetEne = std::stod(svalue);
+    else if(sname == "NPeaks") fNPeaks = std::stoi(svalue);
   }
    
   return 0;
@@ -297,7 +304,7 @@ int Monitor::daq_run()
 
   FillHist(event_byte_size);
 
-  constexpr long updateInterval = 10;
+  constexpr long updateInterval = 1000;
   if((fCounter++ % updateInterval) == 0){
     FindPeaks();
     FitHist();
@@ -343,7 +350,8 @@ void Monitor::FillHist(int size)
     if(data.ChNumber == 0) {
       fHistRaw->Fill(data.Energy);
       // Reject the overflow events
-      if(data.Energy < (1 << 15)) fHist->Fill(data.Energy * fP1 + fP0);
+      if(data.Energy < (1 << 15) && data.Energy > fEneThreshold)
+	fHist->Fill(data.Energy * fP1 + fP0);
     }
   }
 }
@@ -393,6 +401,7 @@ void Monitor::FitHist()
   gausFit->SetParameter(1, mean);
   gausFit->SetParameter(2, sigma);
   gausFit->SetRange(mean - sigma, mean + sigma);
+  gausFit->SetParLimits(0, 0.7 * height, 1.3 * height);
   gausFit->SetParLimits(1, 0.9 * mean, 1.1 * mean);
   gausFit->SetParLimits(2, 0., 10.);
   fHist->Fit(gausFit, "RQN");

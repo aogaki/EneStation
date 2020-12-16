@@ -53,6 +53,9 @@ Emulator::Emulator(RTC::Manager* manager)
 
    fGenerator = std::mt19937(time(nullptr));
    fRandomBool = std::bernoulli_distribution(0.1);
+   fRandomPoisson = std::poisson_distribution<int>(3);
+   
+   fIsADC = true;
 }
 
 Emulator::~Emulator()
@@ -115,6 +118,10 @@ int Emulator::parse_params(::NVList* list)
 
       if(sname == "fileName") fFileName = svalue;
       else if(sname == "histName") fHistName = svalue;
+      else if(sname == "sourceType"){
+	if(svalue == "ADC") fIsADC = true;
+	else fIsADC = false;
+      }
    }
 
    return 0;
@@ -172,7 +179,7 @@ int Emulator::read_data_from_detectors()
   data.TimeStamp = 0;
 
   if(fRandomBool(fGenerator)) {
-     const auto nData = 3;
+    const auto nData = fRandomPoisson(fGenerator);
      for(auto i = 0; i < nData; i++) {
         memcpy(&m_data[received_data_size], &(data.ChNumber), sizeCh);
         received_data_size += sizeCh;
@@ -180,7 +187,8 @@ int Emulator::read_data_from_detectors()
         memcpy(&m_data[received_data_size], &(data.TimeStamp), sizeTS);
         received_data_size += sizeTS;
 
-        data.Energy = fHist->GetRandom();
+	if(fIsADC) data.Energy = fHist->GetRandom();
+	else data.Energy = fHist->GetRandom() * 1000;
         memcpy(&m_data[received_data_size], &(data.Energy), sizeEne);
         received_data_size += sizeEne;
      }

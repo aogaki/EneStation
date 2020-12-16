@@ -8,13 +8,13 @@
 <!-- If you use run.py, set confFile as /tmp/daqmw/rtc.conf           -->
 <configInfo>
   <daqOperator>
-    <hostAddr>127.0.0.1</hostAddr>
+    <hostAddr>172.18.4.109</hostAddr>
   </daqOperator>
   <daqGroups>
     <daqGroup gid="group0">
       <components>
 	<component cid="Reader0">
-          <hostAddr>127.0.0.1</hostAddr>
+          <hostAddr>172.18.4.109</hostAddr>
           <hostPort>50000</hostPort>
           <instName>Reader0.rtc</instName>
           <execPath>/home/hpge/DAQ/EneStation/Reader/ReaderComp</execPath>
@@ -29,7 +29,7 @@
           </params>
         </component>
         <component cid="Dispatcher0">
-          <hostAddr>127.0.0.1</hostAddr>
+          <hostAddr>172.18.4.109</hostAddr>
           <hostPort>50000</hostPort>
           <instName>Dispatcher0.rtc</instName>
           <execPath>/home/hpge/DAQ/EneStation/Dispatcher/DispatcherComp</execPath>
@@ -48,7 +48,7 @@
           </params>
         </component>
         <component cid="Monitor0">
-          <hostAddr>127.0.0.1</hostAddr>
+          <hostAddr>172.18.4.109</hostAddr>
           <hostPort>50000</hostPort>
           <instName>Monitor0.rtc</instName>
           <execPath>/home/hpge/DAQ/EneStation/Monitor/MonitorComp</execPath>
@@ -63,14 +63,14 @@
           </outPorts>
           <params>
 	    <param pid="p0">0</param>
-	    <param pid="p1">0.00070625663</param>
+	    <param pid="p1">0.00071466881</param>
 	    <param pid="UploadInterval">60</param>
             <param pid="PeakThreshold">0.05</param>
             <param pid="TargetEne">1.33</param>
           </params>
         </component>
         <component cid="Recorder0">
-          <hostAddr>127.0.0.1</hostAddr>
+          <hostAddr>172.18.4.109</hostAddr>
           <hostPort>50000</hostPort>
           <instName>Recorder0.rtc</instName>
           <execPath>/home/hpge/DAQ/EneStation/Recorder/RecorderComp</execPath>

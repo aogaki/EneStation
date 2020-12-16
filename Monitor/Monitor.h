@@ -35,7 +35,7 @@ using namespace RTC;
 
 
 // Number of peaks for TSpectrum
-constexpr int knPeaks = 8;
+// constexpr int knPeaks = 8;
 
 
 class Monitor
@@ -87,6 +87,8 @@ private:
    double fPeakPosition;   // From TSpectrum
    double fTargetEne; // From parameter setter
   double fPeakThreshold;
+  double fEneThreshold;
+  int fNPeaks;
   
   // For Flux.
   void UploadFlux();

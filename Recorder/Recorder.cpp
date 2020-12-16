@@ -127,7 +127,8 @@ int Recorder::daq_start()
 
   m_in_status  = BUF_SUCCESS;
   fSubRunNumber = 0;
- 
+  fLastSave = time(nullptr);
+  
   return 0;
 }
 
