@@ -8,7 +8,18 @@ See Install.md
 Going to the working directory  
 ***cd /home/hpge/DAQ/EneStation***
 
-If needed, compile all components under EneStation.
+### Components  
+Components are started up by DAQ-Middleware controller.  If needed, compile all components under EneStation.  
+* Reader  
+Data taking from a CAEN digitizer (DT5730).  Sending data to upstream.  This component can filter the data.  But now, the component only chop meaning less information from the digitizer.  
+* Emulator  
+Sending data to upstream, but the data is from the past measuring data.  Using ROOT library to generate the data.  For testing.  
+* Dispatcher  
+Receive data from down stream and send to upstream.  Receive (input) is one port, Transfer (output) is two ports.  
+* Monitor  
+The main aim of this component is fitting the photo peak and upload the result to a database.  This should be called Online analyzer or something.  But you can use this as the monitor.  Monitoring uses THttpServer of ROOT.  
+* Recorder  
+Save the data as a ROOT file.  Every one hour, the data is saved.  The storage place is local HDD now (/DAQ/Output/).  
 
 Start up all components  
 ***run.py -l test.xml***
