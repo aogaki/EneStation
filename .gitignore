@@ -6,3 +6,4 @@ rtc.conf
 omninames*
 */*Comp
 .confFilePath
+*/.depend
