@@ -9,7 +9,7 @@ Going to the working directory
 ***cd /home/hpge/DAQ/EneStation***
 
 ### Components  
-Components are started up by DAQ-Middleware controller.  If needed, compile all components under EneStation.  
+Components are started up by DAQ-Middleware controller.  If needed, compile all components under EneStation.  In the Makefile of each, there is the compile option "**-std=c++11**".  Sometimes this option makes some errors.  In the up to date system, please delete this option and compile again.    
 * Reader  
 Data taking from a CAEN digitizer (DT5730).  Sending data to upstream.  This component can filter the data.  But now, the component only chop meaning less information from the digitizer.  
 * Emulator  
