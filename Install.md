@@ -6,8 +6,8 @@ At this moment, the system was tested on Ubuntu 18.04, Ubuntu 16.04, Ubuntu 20.0
 ## Install necessary software
 ### From package manager
 On the terminal, type following.  
-***sudo apt install omniorb omniidl omniorb-nameserver libomniorb4-dev libxalan-c-dev libtool-bin uuid-dev autogen libboost-all-dev bc libxml2-utils libxml2-dev xinetd emacs git cmake-qt-gui doxygen automake swig dpkg-dev g++ gcc binutils libx11-dev libxpm-dev libxft-dev libxext-dev python libssl-dev apache2* libapache2-mod-wsgi***  
-These packages are listed by [Dependencies page of ROOT](https://root.cern/install/dependencies/) and [DAQ-Middleware intallation for Raspberry Pi](https://daqmw.kek.jp/raspberrypi/DAQ-MWonRasp4b-rep.txt).  Almost all of DAQ-Middleware page is written in Japanese, please try to use Chrome or some web browsers with translation.  
+***sudo apt install omniorb omniidl omniorb-nameserver libomniorb4-dev libxalan-c-dev libtool-bin uuid-dev autogen libboost-all-dev bc libxml2-utils libxml2-dev xinetd emacs git cmake-qt-gui doxygen automake swig dpkg-dev g++ gcc binutils libx11-dev libxpm-dev libxft-dev libxext-dev python libssl-dev apache2\* libapache2-mod-wsgi ***  
+These packages are listed by [Dependencies page of ROOT](https://root.cern/install/dependencies/) and [DAQ-Middleware intallation for Raspberry Pi](https://daqmw.kek.jp/raspberrypi/DAQ-MWonRasp4b-rep.txt).  Almost all of DAQ-Middleware page is written in Japanese, please try to use Chrome or some web browsers with translation. Probably you will need python2-dev for Ubuntu20.   
 
 ### From source, manual instalation
 Install following software
@@ -31,7 +31,7 @@ For CentOS, you can find the source code from [GitHub](https://github.com/h-send
 
 * ROOT  
 You can install by [some ways](https://root.cern/install/).  Here, I describe the installation from source.  Also I use not release version.  In the case of you want the stable version, please download the source code as same as the [ROOT installation page](https://root.cern/install/build_from_source/).  Also I install ROOT at /opt/ROOT like a old style CERN software.  
-***git clone https://github.com/root-project/root.git***
+***git clone https://github.com/root-project/root.git***  
 ***mkdir build_root***  
 ***cd build_root***  
 ***cmake -DCMAKE_INSTALL_PREFIX=/opt/ROOT ../root***  
