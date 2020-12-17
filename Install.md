@@ -31,10 +31,10 @@ For CentOS, you can find the source code from [GitHub](https://github.com/h-send
 
 * ROOT  
 You can install by [some ways](https://root.cern/install/).  Here, I describe the installation from source.  Also I use not release version.  In the case of you want the stable version, please download the source code as same as the [ROOT installation page](https://root.cern/install/build_from_source/).  Also I install ROOT at /opt/ROOT like a old style CERN software.  
-***git clone https://github.com/root-project/root.git***  
+***wget https://root.cern/download/root_v6.22.06.source.tar.gz***  
 ***mkdir build_root***  
 ***cd build_root***  
-***cmake -DCMAKE_INSTALL_PREFIX=/opt/ROOT ../root***  
+***cmake -DCMAKE_INSTALL_PREFIX=/opt/ROOT ../root-6.22.06***  
 ***make -j12*** (If you will get the error messages, try other stable version of ROOT.)  
 ***sudo mkdir -p /opt/ROOT***  
 ***sudo make install***  
