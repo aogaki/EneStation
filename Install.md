@@ -106,3 +106,4 @@ Also add above 2 lines into following config files.
 **/etc/apache2/sites-available/000-default.conf  
 /etc/apache2/sites-enabled/000-default.conf**  
 Restart the HTTP server  
+***systemctl restart apache2***  
