@@ -91,14 +91,14 @@ In the bootComps file, Change the user name.  Default is daq.
 Enable headers and CORS. This is needed for remote monitoring and controll.  
 First, enable the header.  
 ***sudo a2enmod headers***  
-Next, Editting the config file **etc/apache2/apache2.conf**.  Adding following line in the **<Directory /var/www/>** section.  
+Next, Editting the config file **/etc/apache2/apache2.conf**.  Adding following line in the **<Directory /var/www/>** section.  
 **Header set Access-Control-Allow-Origin "*"**  
 
 * Edit and set up daqmw web script  
 In Ubuntu, the default setting of web pages are at **/var/www/html** not **/var/www**.  Place the scripts at the right place.  
 ***sudo cp -a /var/www/daqmw /var/www/html/***  
 Edit config files of HTTP server  
-**/etc/apache2/onf.d/daq.conf**  
+**/etc/apache2/conf.d/daq.conf**  
 Change the location of script files (www -> www/html) as same as folloing two lines.   
 **WSGIScriptAlias /daqmw/scripts "/var/www/html/daqmw/scripts"  
 WSGIPythonPath  /var/www/html/daqmw/scripts**  
@@ -106,4 +106,4 @@ Also add above 2 lines into following config files.
 **/etc/apache2/sites-available/000-default.conf  
 /etc/apache2/sites-enabled/000-default.conf**  
 Restart the HTTP server  
-***systemctl restart apache2***  
+***sudo systemctl restart apache2***  
